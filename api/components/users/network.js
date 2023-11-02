@@ -1,15 +1,16 @@
 const express = require('express')
 
-const Router = express.Router()
+const router = express.Router()
 const response = require('../../../network/response')
 const controller = require('./index')
 
+
 //routes
 
-Router.get(('/'), list)
-Router.get(('/:id'), get)
-Router.post(('/'), upsert)
-Router.put(('/'), upsert)
+router.get(('/'), list)
+router.get(('/:id'), get)
+router.post(('/'), upsert)
+router.put(('/'), upsert)
 
 
 function list(req, res) {
@@ -40,6 +41,7 @@ function upsert(req, res) {
         })
         .catch((err) => {
             response.error(req, res, err, 500)
+            console.log(err)
         })
 }
 
@@ -47,4 +49,4 @@ function upsert(req, res) {
 
 
 
-module.exports = Router
+module.exports = router

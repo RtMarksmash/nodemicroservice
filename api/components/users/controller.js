@@ -1,4 +1,5 @@
-const nanoid = require('nanoid')
+const { nanoid } = require('nanoid')
+const auth = require('../auth')
 
 const TABLA = 'user'
 
@@ -20,9 +21,12 @@ module.exports = function(injectedStore) {
     }
 
 
-    function upsert() {
+    async function upsert(body) {
+        console.log(body)
         const user = {
-            name: body.name
+            name: body.name,
+            username: body.username,
+
         };
 
         if (body.id) {
@@ -30,6 +34,16 @@ module.exports = function(injectedStore) {
         } else {
             user.id = nanoid()
         };
+
+        if (body.password || body.usarname) {
+            await auth.upsert({
+                id: user.id,
+                username: user.username,
+                password: body.password
+
+
+            })
+        }
 
         return store.upsert(TABLA, user)
 
