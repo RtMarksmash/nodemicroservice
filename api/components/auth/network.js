@@ -13,11 +13,12 @@ router.post('/login', function(req, res) {
             response.succes(req, res, token, 200);
         })
         .catch(err => {
-            console.log(err)
-            response.error(req, res, 'informacion invalida', 400);
+            response.error(req, res, 'informacion invalida promise', 400);
         })
 
 })
 
 
-module.exports = router;
+module.exports = router; 
+
+

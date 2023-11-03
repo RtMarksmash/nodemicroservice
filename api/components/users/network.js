@@ -41,7 +41,7 @@ function upsert(req, res) {
         })
         .catch((err) => {
             response.error(req, res, err, 500)
-            console.log(err)
+            
         })
 }
 
@@ -49,4 +49,6 @@ function upsert(req, res) {
 
 
 
-module.exports = router
+module.exports = router 
+
+

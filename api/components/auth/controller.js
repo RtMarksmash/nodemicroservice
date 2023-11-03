@@ -11,7 +11,7 @@ module.exports = function(injectedStore) {
 
     async function login(username, password) {
         const data = await store.query(TABLA, { username: username });
-        console.log(data)
+        
         if (data.password === password) {
             //generar token
             return auth.sign(data);
@@ -20,6 +20,7 @@ module.exports = function(injectedStore) {
         }
 
     }
+
 
     function upsert(data) {
         const authData = {
@@ -43,4 +44,5 @@ module.exports = function(injectedStore) {
         upsert,
     }
 
-}
+} 
+

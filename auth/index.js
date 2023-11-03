@@ -7,4 +7,5 @@ function sign(data) {
 
 module.exports = {
     sign,
-}
+} 
+
