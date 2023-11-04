@@ -1,4 +1,5 @@
-const auth = require('../../../auth/')
+/* const bcrypt = require('bcryptjs');
+const auth = require('../../../auth/');
 const TABLA = 'auth';
 
 
@@ -9,34 +10,38 @@ module.exports = function(injectedStore) {
         store = store = require('../../../store/dummy');
     }
 
-    async function login(username, password) {
-        const data = await store.query(TABLA, { username: username });
-        
-        if (data.password === password) {
-            //generar token
-            return auth.sign(data);
-        } else {
-            throw new Error('informacion invalida')
-        }
+     async function login(username, password) {
+         const data = await store.query(TABLA, { username: username });
 
-    }
+         return bcrypt.compare(password, data.password)
+             .then(sonIguales => {
+
+                 if (sonIguales === true) {
+                     //generar token
+                     return auth.sign(data);
+                 } else {
+                     throw new Error('informacion invalida')
+                 }
+             });
+
+     } 
 
 
-    function upsert(data) {
+    async function upsert(data) {
         const authData = {
             id: data.id
         }
 
 
-        if (data.user) {
-            authData.user = data.user;
+        if (data.username) {
+            authData.username = data.username;
         }
 
         if (data.password) {
-            authData.password = data.password;
+            authData.password = await bcrypt.hash(data.password, 5);
         }
 
-        return store.upsert(TABLA, data)
+        return store.upsert(TABLA, authData)
     }
 
     return {
@@ -44,5 +49,52 @@ module.exports = function(injectedStore) {
         upsert,
     }
 
-} 
+} */
 
+
+const bcrypt = require('bcrypt');
+
+const auth = require('../../../auth');
+const TABLA = 'auth';
+
+module.exports = function(injectedStore) {
+    let store = injectedStore;
+    if (!store) {
+        store = require('../../../store/dummy');
+    }
+
+    async function login(username, password) {
+        const data = await store.query(TABLA, { username: username });
+
+        return bcrypt.compare(password, data.password)
+            .then(sonIguales => {
+                if (sonIguales === true) {
+                    // Generar token;
+                    return auth.sign(data)
+                } else {
+                    throw new Error('Informacion invalida');
+                }
+            });
+    }
+
+    async function upsert(data) {
+        const authData = {
+            id: data.id,
+        }
+
+        if (data.username) {
+            authData.username = data.username;
+        }
+
+        if (data.password) {
+            authData.password = await bcrypt.hash(data.password, 5);
+        }
+
+        return store.upsert(TABLA, authData);
+    }
+
+    return {
+        login,
+        upsert,
+    };
+};
