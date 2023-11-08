@@ -7,15 +7,13 @@ const controller = require('./index')
 
 //routes
 
-router.post('/login', function(req, res) {
+router.post('/login', function(req, res, next) {
     controller.login(req.body.username, req.body.password)
         .then(token => {
             response.succes(req, res, token, 200);
         })
-        .catch(err => {
-            console.log(err)
-            response.error(req, res, 'informacion invalida promise', 400);
-        })
+        .catch(next)
+
 
 })
 

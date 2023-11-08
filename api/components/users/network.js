@@ -10,45 +10,41 @@ const controller = require('./index')
 router.get(('/'), list)
 router.get(('/:id'), get)
 router.post(('/'), upsert)
-router.put('/',secure('update'), upsert)
+router.put('/', secure('update'), upsert)
 
 
-function list(req, res) {
+function list(req, res, next) {
     controller.list()
         .then((item) => {
             response.succes(req, res, item, 200)
         })
-        .catch((error) => {
-            response.error(req, res, error, 500)
-        })
+        .catch(next)
+
+
 }
 
 
-function get(req, res) {
+function get(req, res, next) {
     controller.get(req.params.id)
         .then((user) => {
             response.succes(req, res, user, 200)
         })
-        .catch((error) => {
-            response.succes(req, res, error, 500)
-        })
+        .catch(next)
 }
 
-function upsert(req, res) {
+function upsert(req, res, next) {
     controller.upsert(req.body)
         .then((user) => {
             response.succes(req, res, user, 200)
         })
-        .catch((err) => {
-            response.error(req, res, err, 500)
-            
-        })
+        .catch(next)
+
+
+
 }
 
 
 
 
 
-module.exports = router 
-
-
+module.exports = router
