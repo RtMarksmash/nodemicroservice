@@ -68,30 +68,25 @@ function get(table, id) {
     });
 };
 
-function insert(table, data) {
-    return new Promise((resolve, reject) => {
-        connection.query(`INSERT INTO ${table} SET? `, data, (err, result) => {
-            if (err) {
-                return reject(err)
-            };
+
+
+function insert(table,data){
+    return new Promise((resolve,reject)=>{
+        connection.query(`INSERT INTO ${table} SET ?`,data,(err,result)=>{
+            if(err)return reject(err);
             resolve(result);
         });
-
     });
 };
 
-
-function update(table, data) {
-    return new Promise((resolve, reject) => {
-        connection.query(`INSERT INTO ${table} SET? WHERE id=`, [data, data.id], (err, result) => {
-            if (err) {
-                return reject(err)
-            };
+function update(table,data){
+    return new Promise((resolve,reject)=>{
+        connection.query(`UPDATE ${table} SET ? WHERE id=?`,[data,data.id],(err,result)=>{
+            if(err)return reject(err);
             resolve(result);
         });
-
     });
-};
+} ;
 
 
 function upsert(table, data) {
@@ -103,9 +98,22 @@ function upsert(table, data) {
 
 };
 
+function query(table, query ){
+    return new Promise((resolve,reject)=>{
+        connection.query(`SELECT * FROM ${table} WHERE ?`,query,(err,res)=>{
+            if(err) return reject(err);
+            resolve(res[0] || null);
+        });
+    });
+};
+
+
+
+
 
 module.exports = {
     list,
     get,
-    upsert
+    upsert,
+    query
 }
