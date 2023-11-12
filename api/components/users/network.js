@@ -1,16 +1,17 @@
-const express = require('express');
-const secure = require('./secure');
-const router = express.Router();
-const response = require('../../../network/response');
-const controller = require('./index');
+const express = require('express')
+const secure = require('./secure')
+const router = express.Router()
+const response = require('../../../network/response')
+const controller = require('./index')
 
 
 //routes
 
-router.get(('/'), list);
-router.post('/follow/:id', secure('follow'), follow);
-router.get(('/:id'), get);
-router.post(('/'), upsert);
+router.get(('/'), list)
+router.get(('/:id'), get)
+router.post(('/'), upsert)
+router.post('/follow/:id',secure('follow'),follow)
+router.get('/:id/following',following)
 router.put('/', secure('update'), upsert)
 
 
@@ -31,7 +32,7 @@ function get(req, res, next) {
             response.succes(req, res, user, 200)
         })
         .catch(next)
-};
+}
 
 function upsert(req, res, next) {
     controller.upsert(req.body)
@@ -39,17 +40,28 @@ function upsert(req, res, next) {
             response.succes(req, res, user, 200)
         })
         .catch(next)
+
+
+
 };
 
 
-function follow(req, res, next) {
-    controller.follow(req.user.id, req.params.id)
-        .then(data => {
-            response.succes(req, res, data, 201)
+function follow(req,res,next){
+    controller.follow(req.user.id,req.params.id)
+        .then(data=>{
+            response.succes(req,res,data,201)
         })
         .catch(next)
 };
 
+
+function following(req,res,next){
+    controller.following(req.params.id)
+        .then(data =>{
+            response.succes(req,res,data,201);
+        })
+        .catch(next)
+};
 
 
 
