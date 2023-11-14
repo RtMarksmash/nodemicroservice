@@ -6,7 +6,6 @@ const TABLA = 'user'
 
 module.exports = function(injectedStore) {
     let store = injectedStore;
-
     if (!store) {
         store = store = require('../../../store/dummy')
     }
@@ -16,8 +15,8 @@ module.exports = function(injectedStore) {
 
     }
 
-    function get(id) {
-        return store.get(TABLA, id)
+    async function get(id) {
+        store.get(TABLA, id)
     }
 
 
@@ -57,14 +56,14 @@ module.exports = function(injectedStore) {
 
     };
 
-     async function following(user){
-        const join ={};
-        join[TABLA] = 'user_to'//{ user: user_to }
-        const query = {user_from: user};
-        return await store.query(TABLA + '_follow',query,join);
-    } 
+    async function following(user) {
+        const join = {};
+        join[TABLA] = 'user_to' //{ user: user_to }
+        const query = { user_from: user };
+        return await store.query(TABLA + '_follow', query, join);
+    }
 
-   
+
 
     return {
         list,
