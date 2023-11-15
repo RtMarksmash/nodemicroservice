@@ -8,9 +8,13 @@ module.exports = {
     },
     mysql: {
         host: process.env.HOST || 'sql10.freemysqlhosting.net',
-        user: process.env.HOST_USER || 'sql10660337',
-        password: process.env.HOST_PASS || 'eySSGmHMcV',
-        database: process.env.HOST_DB || 'sql10660337',
+        user: process.env.HOST_USER || 'sql10662457',
+        password: process.env.HOST_PASS || 'qfFCYgsyfl',
+        database: process.env.HOST_DB || 'sql10662457',
+
+    },
+    mysqlService: {
+        port: process.env.MYSQL_SRV_PORT || 3001,
 
     }
 
