@@ -1,42 +1,18 @@
-const request = require('request');
-const err = require('../utils/error');
+const fetch = require('node-fetch-commonjs');
 
-function createRemoteDb(host, port) {
-    const URL = 'https//:' + host + ':' + port;
+function createRemoteDB(host, port) {
+    const URL = `http://${host}:${port}`;
+    console.log(URL)
 
-    function list(table) {
-        return request('GET', table);
-    };
+    async function list(table) {
+        const response = await fetch(`${URL}/${table}`);
+        const data = await response.json();
+        return data;
+    }
 
-    function req(method, table, data) {
-        let url = URL + '/' + data;
-        body = '';
-
-        return new Promise((resolve, reject) => {
-            request({
-                method,
-                headers: {
-                    'content-type': 'application/json'
-                },
-                url,
-                body
-            }), (err, req, body) => {
-                if (err) {
-                    console.error('data based conection failed', err);
-                    return reject(err.message);
-                }
-
-                const resp = JSON.parse(body);
-                return resolve(resp.body)
-
-            }
-        })
-
-        return {
-            list
-        }
+    return {
+        list,
     }
 }
 
-
-module.exports = createRemoteDb;
+module.exports = createRemoteDB;
