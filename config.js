@@ -4,6 +4,9 @@ module.exports = {
     },
     jwt: {
         secret: process.env.JWT || 'not secret'
+    },
+    post: {
+        port: process.env.POST_PORT || 3002,
 
     },
     mysql: {
