@@ -1,6 +1,6 @@
 const express = require('express');
 const response = require('../network/response');
-const store = require('../store/mysql');
+const store = require('../store/remote-cache');
 
 const router = express.Router();
 
@@ -9,9 +9,7 @@ const router = express.Router();
 
 router.get('/:table', list);
 router.get('/:table/:id', get);
-router.post('/:table', insert);
 router.put('/:table', upsert);
-router.post('/:table/query', query);
 
 
 //functions
@@ -29,20 +27,12 @@ async function get(req, res, next) {
     response.succes(req, res, datos, 200)
 };
 
-async function insert(req, res, next) {
-    const datos = await store.insert(req.params.table, req.body)
-    response.succes(req, res, datos, 201)
-};
 
 async function upsert(req, res, next) {
     const datos = await store.upsert(req.params.table, req.body)
     response.succes(req, res, datos, 201)
 }
 
-async function query(req, res, next) {
-    const datos = await store.query(req.params.table, req.body.query, req.body.join)
-    response.success(req, res, data, 200);
-}
 
 
 
