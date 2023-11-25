@@ -21,6 +21,7 @@
         "node-fetch-commonjs": "^3.3.2",
         "nodemon": "^2.0.22",
         "pm2": "^5.3.0",
+        "redis": "^4.6.11",
         "request": "^2.88.0",
         "swagger-ui-express": "^5.0.0"
     }

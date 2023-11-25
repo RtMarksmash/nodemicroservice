@@ -26,6 +26,11 @@ module.exports = {
         host: process.env.MYSQL_SRV_HOST || 'localhost',
         port: process.env.MYSQL_SRV_PORT || 3003,
 
+    },
+    redis: {
+        host: process.env.REDIS_HOST || 'redis-11365.c321.us-east-1-2.ec2.cloud.redislabs.com:',
+        port: process.env.REDIS_PORT || '11365',
+        password: process.env.REDIS_PASS || 'p4NoB6yMZu13mP4gx2gWGJYKUzkSXyxl'
     }
 
 }
